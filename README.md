@@ -1,8 +1,6 @@
 # DataPython
 IntroCS Spring Term 2017-2018
 
-<<<<<<< HEAD
-=======
 Data link:
 
 [School Survey](https://data.cityofnewyork.us/Education/2010-2011-NYC-School-Survey/mnz3-dyi8)
@@ -12,4 +10,3 @@ Data link:
 [School Size](https://data.cityofnewyork.us/Education/2010-2011-Class-Size-School-level-detail/urz7-pzb3)
 
 Find correlation between how students/teacher sees the school and SAT College and school size in New York State. Can add more data sets such as where the school is located and income of students.
->>>>>>> 618efc090946d5e00ccf400541adfbd9a4085f5c
