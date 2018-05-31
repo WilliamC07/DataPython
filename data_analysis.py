@@ -1,6 +1,3 @@
-#  Line of best fit
-
-
 #  correlation coefficient r
 def prod(list1, list2):
   '''Generate list from the product of elements of the same index'''
@@ -30,3 +27,30 @@ def correlation(x,y):
  
 # print(correlation([43,21,25,42,57,59],[99,65,79,75,87,81]))
 # => 0.5298089018901744
+
+
+# Line of best fit
+def mean(list):
+  '''finds the mean of a list'''
+  return sum(list)/float(len(list))
+
+def calc(list1):
+  '''creates a list of the calculated result for the numerator of the slope'''
+  newList = []
+  idx = 0
+  while idx < len(list1):
+    newList.append(list1[idx]-mean(list1))  # calculates the difference of each index of list1 minus the mean of list1
+    idx += 1
+  return newList
+
+def regressionLine(x,y):
+  '''Find the equation for the line of best fit of the scatterplot data from lists, x and y'''
+  m = 0
+  numerator = sum(prod(calc(x),calc(y)))
+  denominator = sum(squareList(calc(x)))
+  m = numerator / denominator  # m is the slope
+  b = mean(y) - m * mean(x)  # b is the y-intercept
+  return('line of best fit: y = {}x + {}'.format(m,b))
+
+# print(regressionLine([9,13,21,30,31,31,34,25,28,20,5],[260,320,420,530,560,550,590,500,560,440,300]))
+# => line of best fit: y = 11.7312808818x + 193.852147472
