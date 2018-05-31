@@ -34,12 +34,12 @@ def cgiFieldStorageToDict( fieldStorage ):
    for key in fieldStorage.keys():
      ans[ key ] = fieldStorage[ key ].value
    return ans
+   print(ans)
 
 def main():
     # ask the library function to retrieve all answers and put them
     #   into a dictionary
     form = cgiFieldStorageToDict(cgi.FieldStorage())
-
 
     #ONLY FOR DEBUGGING
     #print the form data!
