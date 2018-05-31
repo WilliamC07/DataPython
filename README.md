@@ -11,6 +11,9 @@ Data link:
 
 Find correlation between how students/teacher sees the school and SAT College and school size in New York State. Can add more data sets such as where the school is located and income of students.
 
-
-### Proposal
-
+# How to verify
+1. Delete all files from your computer
+2. Redownload all the files
+3. Edit the now new files
+4. Drag and drop the new files
+5. You are done.
