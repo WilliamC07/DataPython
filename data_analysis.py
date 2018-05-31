@@ -46,13 +46,13 @@ def calc(list1):
 def regressionLine(x,y):
   '''Find the values of a and b in the eqtn, y = ax +  b, for the line of best fit of the scatterplot data from lists, x and y'''
   eqtn = {}
-  A = 0
+  A = 0  # A is the slope
   numerator = sum(prod(calc(x),calc(y)))
   denominator = sum(squareList(calc(x)))
-  A = numerator / denominator  # A is the slope
+  A = numerator / denominator  # slope
   B = mean(y) - A * mean(x)  # B is the y-intercept
-  eqtn["a"] = A
-  eqtn["b"] = B
+  eqtn["a"] = A  # value of a
+  eqtn["b"] = B  # value of b
   return eqtn
 
 # print(regressionLine([9,13,21,30,31,31,34,25,28,20,5],[260,320,420,530,560,550,590,500,560,440,300]))
