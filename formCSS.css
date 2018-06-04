@@ -1,0 +1,12 @@
+h1, h2{
+	text-align: center;
+}
+.processed_h3{
+	display: inline;
+}
+#div_first_part_processed_data_formatted{
+	float: left;
+}
+#div_second_part_processed_data_formatted{
+	margin-left: 50%;
+}

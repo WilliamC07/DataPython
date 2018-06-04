@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="formCSS.css">
+	<title>
+		Generating the webpage
+	</title>
+</head>
+<body>
+	<h1>Generate the webpage</h1>
+	<h2>Please fill out all of the inputs</h3>
+	<form method="GET" action="main.py">
+		<h3>How do you want the data exported?</h3>
+		<input type="radio" name="export_type">
+		<label>Raw Data Dump</label>
+		<br/>
+		<input type="radio" name="export_type">
+		<label>Processed Data Dump</label>
+		<br/>
+		<input type="radio" name="export_type">
+		<label>Do not export anything</label>
+		<hr>
+		<div>
+			<div id="div_first_part_processed_data_formatted">
+				<h3 class="processed_h3">Processed Data Formated</h3>
+				<br>
+				<input type="radio" name="processed_format">
+				<label>Top</label>
+				<input type="text" name="top_schools">
+				<label>schools</label>
+				<br>
+				<input type="radio" name="processed_format">
+				<label>Bottom</label>
+				<input type="text" name="bottom_schools">
+				<label>schools</label>
+				<br>
+				<input type="radio" name="processed_format">
+				<label>Random</label>
+				<input type="text" name="random_schools">
+				<label>schools</label>
+				<br>
+				<input type="radio" name="processed_format">
+				<label>School name:</label>
+				<input type="text" name="processed_format">
+				<br>
+			</div>
+			<div id="div_second_part_processed_data_formatted">
+				<h3 class="processed_h3">Based on</h3>
+				<br>
+				<input type="radio" name="processed_based">
+				<label>SAT Score</label>
+				<br>
+				<input type="radio" name="processed_based">
+				<label>Class size</label>
+				<br>
+				<input type="radio" name="processed_based">
+				<label>Survey results (Average of responses)</label>
+			</div>
+		</div>
+		<hr>
+		<input type="submit" name="asd" value = "Generate webpage">
+	</form>
+</body>
+</html>
