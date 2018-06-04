@@ -12,48 +12,48 @@
 	<form method="GET" action="main.py">
 		<div id="head_export">
 			<h3>How do you want the data exported?</h3>
-			<input type="radio" name="export_type">
+			<input type="radio" name="export_type" value="raw">
 			<label>Raw Data Dump</label>
 			<br/>
-			<input type="radio" name="export_type">
+			<input type="radio" name="export_type" value="processed">
 			<label>Processed Data Dump</label>
 			<br/>
-			<input type="radio" name="export_type">
+			<input type="radio" name="export_type" value="nothing">
 			<label>Do not export anything</label>
 		</div>
 		<hr>
 		<div id="head_processed_data">
 			<div id="body_left_processed_data">
 				<h3>Processed Data Formated</h3>
-				<input type="radio" name="processed_format">
+				<input type="radio" name="processed_format" value="top">
 				<label>Top</label>
-				<input type="text" name="top_schools">
+				<input type="text" name="top_school">
 				<label>schools</label>
 				<br>
-				<input type="radio" name="processed_format">
+				<input type="radio" name="processed_format" value="bottom">
 				<label>Bottom</label>
-				<input type="text" name="bottom_schools">
+				<input type="text" name="bottom_school">
 				<label>schools</label>
 				<br>
-				<input type="radio" name="processed_format">
+				<input type="radio" name="processed_format" value="random">
 				<label>Random</label>
-				<input type="text" name="random_schools">
+				<input type="text" name="random_school">
 				<label>schools</label>
 				<br>
-				<input type="radio" name="processed_format">
+				<input type="radio" name="processed_format" value="name">
 				<label>School name or code:</label>
-				<input type="text" name="processed_format">
+				<input type="text" name="name_school">
 				<br>
 			</div>
 			<div id="body_right_processed_data">
 				<h3>Based on</h3>
-				<input type="radio" name="processed_based">
+				<input type="radio" name="processed_based" value="score">
 				<label>SAT Score</label>
 				<br>
-				<input type="radio" name="processed_based">
+				<input type="radio" name="processed_based" value="class_size">
 				<label>Class size</label>
 				<br>
-				<input type="radio" name="processed_based">
+				<input type="radio" name="processed_based" value="SAT">
 				<label>Survey results (Average of responses)</label>
 			</div>
 		</div>
@@ -67,7 +67,7 @@
 			<a href="https://data.cityofnewyork.us/Education/2010-2011-Class-Size-School-level-detail/urz7-pzb3" target="_blank">Link to 2010-2011 NYC School Class Size</a>
 		</div>
 		<hr>
-		<input id="submit_button" type="submit" name="asd" value = "Generate webpage">
+		<input id="submit_button" type="submit" name="submit" value = "Generate webpage">
 	</form>
 </body>
 </html>
