@@ -7,23 +7,24 @@
 	</title>
 </head>
 <body>
-	<h1>Generate the webpage</h1>
-	<h2>Please fill out all of the inputs</h3>
+	<h1>Highschool statistics!</h1>
+	<h2>Please fill out all of the inputs</h2>
 	<form method="GET" action="main.py">
-		<h3>How do you want the data exported?</h3>
-		<input type="radio" name="export_type">
-		<label>Raw Data Dump</label>
-		<br/>
-		<input type="radio" name="export_type">
-		<label>Processed Data Dump</label>
-		<br/>
-		<input type="radio" name="export_type">
-		<label>Do not export anything</label>
+		<div id="head_export">
+			<h3>How do you want the data exported?</h3>
+			<input type="radio" name="export_type">
+			<label>Raw Data Dump</label>
+			<br/>
+			<input type="radio" name="export_type">
+			<label>Processed Data Dump</label>
+			<br/>
+			<input type="radio" name="export_type">
+			<label>Do not export anything</label>
+		</div>
 		<hr>
-		<div>
-			<div id="div_first_part_processed_data_formatted">
-				<h3 class="processed_h3">Processed Data Formated</h3>
-				<br>
+		<div id="head_processed_data">
+			<div id="body_left_processed_data">
+				<h3>Processed Data Formated</h3>
 				<input type="radio" name="processed_format">
 				<label>Top</label>
 				<input type="text" name="top_schools">
@@ -40,13 +41,12 @@
 				<label>schools</label>
 				<br>
 				<input type="radio" name="processed_format">
-				<label>School name:</label>
+				<label>School name or code:</label>
 				<input type="text" name="processed_format">
 				<br>
 			</div>
-			<div id="div_second_part_processed_data_formatted">
-				<h3 class="processed_h3">Based on</h3>
-				<br>
+			<div id="body_right_processed_data">
+				<h3>Based on</h3>
 				<input type="radio" name="processed_based">
 				<label>SAT Score</label>
 				<br>
@@ -58,7 +58,16 @@
 			</div>
 		</div>
 		<hr>
-		<input type="submit" name="asd" value = "Generate webpage">
+		<div id="head_extra">
+			<h3>Extra</h3>
+			<a href="https://data.cityofnewyork.us/Education/2010-2011-NYC-School-Survey/mnz3-dyi8" target="_blank">Link to 2010-2011 NYC School Survey</a>
+			<br>
+			<a href="https://data.cityofnewyork.us/Education/2010-SAT-College-Board-School-Level-Results/zt9s-n5aj" target="_blank">Link to 2010 SAT Scores</a>
+			<br>
+			<a href="https://data.cityofnewyork.us/Education/2010-2011-Class-Size-School-level-detail/urz7-pzb3" target="_blank">Link to 2010-2011 NYC School Class Size</a>
+		</div>
+		<hr>
+		<input id="submit_button" type="submit" name="asd" value = "Generate webpage">
 	</form>
 </body>
 </html>

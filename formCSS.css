@@ -1,12 +1,27 @@
 h1, h2{
 	text-align: center;
 }
-.processed_h3{
-	display: inline;
+#head_export{
+	height: 120px;
 }
-#div_first_part_processed_data_formatted{
+#head_processed_data{
+	height: 154px;
+}
+#body_left_processed_data{
 	float: left;
+	width: 25%
 }
-#div_second_part_processed_data_formatted{
-	margin-left: 50%;
+#body_right_processed_data{
+	float: left;
+	width: 25%;
+	padding-left: 5%;
+}
+#head_extra{
+	height: 110px;
+}
+#submit_button{
+	margin-top: 15px;
+	background-color: LightGray;
+	width: 50%;
+	height: 20%;
 }
