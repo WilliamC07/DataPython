@@ -1,16 +1,16 @@
 # Basic functions for creating a webpage
 
 
-def get_head(cssLink=""):
+def get_head(cssLink="", title="Data!"):
     """Gives the start of html files"""
     return '''<!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="{}">
-<title>Demo!</title>
+<title>{}</title>
 </head>
 <body>
-</html>'''.format(cssLink)
+</html>'''.format(cssLink, title)
 
 
 def get_tail():
