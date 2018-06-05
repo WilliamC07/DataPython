@@ -20,8 +20,8 @@ def squareList(list1):
 
 
 def correlation(x, y):
-    '''solve for r, the strength and direction between 2 points on a scatterplot
-    value of r is between +1 and -1'''
+    '''solve for r, the strength and direction between 2 points
+    on a scatter plotvalue of r is between +1 and -1'''
     n = len(x)  # the number of pairs given that x and y are the same length
     numerator = (n * (sum(prod(x, y))) - sum(x) * sum(y))
     denominator = ((n * sum(squareList(x)) - ((sum(x)) ** 2)) * (n * sum(squareList(y)) - ((sum(y)) ** 2))) ** .5
@@ -50,7 +50,8 @@ def calc(list1):
 
 
 def regressionLine(x, y):
-    '''Find the values of a and b in the eqtn, y = ax +  b, for the line of best fit of the scatterplot data from lists, x and y'''
+    '''Find the values of a and b in the eqtn, y = ax +  b, for the
+    line of best fit of the scatterplot data from lists, x and y'''
     eqtn = {}
     A = 0  # A is the slope
     numerator = sum(prod(calc(x), calc(y)))

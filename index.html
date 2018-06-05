@@ -7,7 +7,7 @@
 	</title>
 </head>
 <body>
-	<h1>Highschool statistics!</h1>
+	<h1>High School statistics!</h1>
 	<h2>Please fill out all of the inputs</h2>
 	<form method="GET" action="main.py">
 		<div id="head_export">
@@ -21,28 +21,29 @@
 			<input type="radio" name="export_type" value="nothing">
 			<label>Do not export anything</label>
 		</div>
-		<hr>
+		
 		<div id="head_processed_data">
 			<div id="body_left_processed_data">
-				<h3>Processed Data Formated</h3>
+				<h3>Processed Data Formatted</h3>
 				<input type="radio" name="processed_format" value="top">
 				<label>Top</label>
-				<input type="text" name="top_school">
+				<input type="text" name="top_school" placeholder="1 to 460 inclusive">
 				<label>schools</label>
 				<br>
 				<input type="radio" name="processed_format" value="bottom">
 				<label>Bottom</label>
-				<input type="text" name="bottom_school">
+				<input type="text" name="bottom_school" placeholder="1 to 460 inclusive">
 				<label>schools</label>
 				<br>
 				<input type="radio" name="processed_format" value="random">
 				<label>Random</label>
-				<input type="text" name="random_school">
+				<input type="text" name="random_school" placeholder="1 to 460 inclusive">
 				<label>schools</label>
 				<br>
 				<input type="radio" name="processed_format" value="name">
-				<label>School name or code:</label>
+				<label>School name or code*:</label>
 				<input type="text" name="name_school">
+				<label>*Include word "high school" if it is part of the name (Example: "Stuyvesant High School")</label>
 				<br>
 			</div>
 			<div id="body_right_processed_data">
@@ -57,7 +58,7 @@
 				<label>Survey results (Average of responses)</label>
 			</div>
 		</div>
-		<hr>
+		
 		<div id="head_extra">
 			<h3>Extra</h3>
 			<a href="https://data.cityofnewyork.us/Education/2010-2011-NYC-School-Survey/mnz3-dyi8" target="_blank">Link to 2010-2011 NYC School Survey</a>
@@ -66,7 +67,7 @@
 			<br>
 			<a href="https://data.cityofnewyork.us/Education/2010-2011-Class-Size-School-level-detail/urz7-pzb3" target="_blank">Link to 2010-2011 NYC School Class Size</a>
 		</div>
-		<hr>
+		
 		<input id="submit_button" type="submit" name="submit" value = "Generate webpage">
 	</form>
 </body>

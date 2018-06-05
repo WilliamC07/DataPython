@@ -1,7 +1,10 @@
 """
-The only thing you will ever need from this is errors(form).
+The only thing you will ever need from this is error_website(form).
 Don't use anything else.
 """
+
+import generating_html as web_build
+import find_school
 
 
 # Global variables for readability
@@ -9,7 +12,26 @@ MATCH_INPUT = {"top": "top_school", "bottom": "bottom_school",
                "random": "random_school", "name": "name_school"}
 
 
-def errors(form):
+def error_website(form):
+    """Generates website telling user what to fix"""
+    to_fix = get_errors(form)
+
+    # If there are no error, the server can start generating data
+    if not to_fix:
+        return None
+    else:
+        # Create a string listing all the errors
+        errors = "Please fix these first:\n"
+
+        for error in to_fix:
+            errors += "{}\n".format(error)
+
+        paragraph = web_build.paragraph(errors)
+        website = web_build.generate_webpage(web_build.get_head(title="Error!!!!!"), paragraph, web_build.get_tail())
+        return website
+
+
+def get_errors(form):
     """Returns message of what user didn't give in"""
     # Used to highlight what field the user messed up on
     error_highlight = []
@@ -33,23 +55,23 @@ def errors(form):
 
     return error_highlight
 
+
 '''
 Helper functions
 '''
 
-
 def check_all_radio_inputs(form):
     """User clicked all 3 radio buttons"""
     error_highlight = []
-    missing_format = "Missing {}"
+    missing_format = "Fill out {} section"
     if "export_type" not in form:
-        error_highlight.append(missing_format.format("export_type"))
+        error_highlight.append(missing_format.format("'How do you want the data exported?'"))
 
     if "processed_format" not in form:
-        error_highlight.append(missing_format.format("processed_format"))
+        error_highlight.append(missing_format.format("'Processed Data Formatted'"))
 
     if "processed_based" not in form:
-        error_highlight.append(missing_format.format("processed_based"))
+        error_highlight.append(missing_format.format("'Based on'"))
 
     return error_highlight
 
@@ -65,7 +87,7 @@ def missing_matching_radio(form):
     type = form["processed_format"]
 
     if MATCH_INPUT[type] not in form:
-        error_highlight.append("Missing {}".format(MATCH_INPUT[type]))
+        error_highlight.append("Fill in the textfield that corresponds to the radio button you submitted")
     return error_highlight
 
 
@@ -77,9 +99,11 @@ def check_correct_type_input(form):
     else:
         # Has to be numerical value less than or equal to amount of highschools(640)
         if form[MATCH_INPUT[type]].isdigit():
-            if int(form[MATCH_INPUT[type]]) > 640:
-                error_highlight.append("overflow_school {}".format(form["processed_format"]))
+            num_schools = int(form[MATCH_INPUT[type]])
+            if num_schools > 640:
+                error_highlight.append("You want a list of {} high schools, but there are only 640".format(num_schools))
+            elif num_schools <= 0:
+                error_highlight.append("You must enter a positive number (A number greater than 0)")
         else:
-            error_highlight.append("not_number {}".format(form["processed_format"]))
+            error_highlight.append("Enter a integer greater than 0 but less than 461. No decimals/fractions")
     return error_highlight
-

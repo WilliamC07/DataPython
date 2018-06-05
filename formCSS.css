@@ -2,14 +2,17 @@ h1, h2{
 	text-align: center;
 }
 #head_export{
-	height: 120px;
+	height: 100px;
+	width: 100%;
 }
+
 #head_processed_data{
-	height: 154px;
+	height: 170px;
+	width: 100%;
 }
 #body_left_processed_data{
-	float: left;
-	width: 25%
+    float: left;
+	width: 25%;
 }
 #body_right_processed_data{
 	float: left;
@@ -17,11 +20,11 @@ h1, h2{
 	padding-left: 5%;
 }
 #head_extra{
-	height: 110px;
+	height: 25%;
 }
 #submit_button{
 	margin-top: 15px;
 	background-color: LightGray;
 	width: 50%;
-	height: 20%;
+	height: 15%;
 }

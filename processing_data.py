@@ -3,11 +3,7 @@ import data_analysis as analysis
 # Global variables for readability
 # SAT
 processed_SAT = []
-total_average_reading = 0
-total_average_math = 0
-total_average_writing = 0
-total_average_combined = 0
-total_average_test_takers = 0
+total_average = ["test_takers", "reading", "math", "writing", "overall"]  # Will be converted to numbers
 
 # Survey
 

@@ -34,18 +34,20 @@ def main():
     # Dictionary of inputs
     form = get_cgi_dict()
 
+    # Check if user entered valid information and make user reenter if wrongly filled
+    error_web = error.error_website(form)
+    if error_web is not None:  # Means there are errors
+        print(error.error_website(form))
+        return  # Can return since this function is only called once, at the end
+
     # Generate all the data to be used
     data.initialize()
-
-    # Check if user entered valid information and make user reenter if wrongly filled
-    errors = error.errors(form)
 
     # Generation of body to pass into generate_webpage
     body = ""
     body += str(form)
-    body += str(errors)
     generate_webpage(body)
 
 
-if __name__ == "__main__":
-    main()
+
+main()

@@ -18,12 +18,13 @@ def get_tail():
 </html>'''
 
 
+def paragraph(message):
+    # \n doesn't work on <p>, must use <br/> instead
+    return "<p>{}</p>".format(message.replace("\n", "<br/>"))
+
+
 def generate_webpage(*args):
     """First element passed in must be the get_head"""
-    # Debugging
-    if not str(args[0]).startswith("<!DOCTYPE"):
-        print("Missing head, will not generate generate_webpage function")
-
     html = ""
     for element in args:
         html += element
