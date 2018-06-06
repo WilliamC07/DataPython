@@ -64,3 +64,10 @@ def regressionLine(x, y):
 
 # print(regressionLine([9,13,21,30,31,31,34,25,28,20,5],[260,320,420,530,560,550,590,500,560,440,300]))
 # => {'a': 11.7312808818, 'b': 193.852147472}
+
+
+def decimal_to_percent(decimal):
+    if decimal == 1:
+        return "100%"
+    else:
+        return "{}%".format(str(decimal)[2:4])

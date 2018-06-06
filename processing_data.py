@@ -6,6 +6,7 @@ processed_SAT = []
 total_average = ["test_takers", "reading", "math", "writing", "overall"]  # Will be converted to numbers
 
 # Survey
+processed_survey = []
 
 '''
 Helper function:
@@ -20,6 +21,7 @@ read_file(file_path) --> gives the raw data of the file
 
 def initialize():
     read_SAT()
+    read_survey()
 
 
 def read_file(file_path):
@@ -27,6 +29,15 @@ def read_file(file_path):
     information = file.readlines()
     file.close()
     return information
+
+
+def is_valid_school(dbn):
+    """If the school didn't take the SAT then we don't care"""
+    valid_school = False
+    for school in processed_SAT:
+        if school[0] == dbn:
+            valid_school = True
+    return valid_school
 
 
 '''
@@ -38,7 +49,6 @@ def process_SAT(raw):
     for line in raw[1:]:  # Remove csv file column name
         data = ["DBN", "School name", "number of test takers",
                 "reading", "math", "writing", "total average"]
-        array = []
 
         # Clean up reading file
         line = line.replace("\n", "")
@@ -73,11 +83,45 @@ def read_SAT():
 
 
 '''
-Class Size Functions
+Survey functions
 '''
+
+
+def process_survey(raw):
+    """Note that not all schools have their survey results posted"""
+    for line in raw[1:]:
+        data = ["DBN"]
+
+        array = line.split(",")
+        if not is_valid_school(array[0]):
+            # Skips school that didn't take the SAT or we don't have the data for
+            continue
+        else:
+            data[0] = array[0]
+
+        # Generates school name in case there is a comma in the name
+        school_name = ""
+        for part in array[1:-25]:
+            school_name += part+", "
+        data.append(school_name[:-2])  # Removes trailing comma and space
+
+        for rest_data in array[-25:]:
+            data.append(rest_data)
+
+        processed_survey.append(data)
+
+
+def read_survey():
+    global processed_survey
+    processed_survey = []
+
+    PATH = "Survey.csv"
+    raw_data = read_file(PATH)
+    process_survey(raw_data)
 
 
 # Bug testing
 if __name__ == "__main__":
     initialize()
-    print(processed_SAT)
+    for item in processed_survey:
+        print(len(item))

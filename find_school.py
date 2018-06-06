@@ -14,48 +14,61 @@ def clean_name(input):
     return input
 
 
-def letter_occurrence(input):
-    input_letters = dict()
-    for letter in input:
-        if letter not in input_letters:
-            input_letters[letter] = 1
-        else:
-            input_letters[letter] += 1
-    return input_letters
+def comparison(base, new):
+    # Makes sure the first two letters are the same
+    if base[:2] == new[:2]:
+        same = 0
+        for letter in base:
+            if letter in new:
+                new.replace(letter, "", 1)
+                same += 1
+
+        # Percentage of similar characters
+        return float(same) / float(len(base))
+    else:
+        return 0
 
 
-def percent_similar(dict_base, dict_new):
-    pass
-
-def find_school(input: str):
+def find_school(input):
     # See if person enter DBN name
-    if input[0].isdigit(): #  [0] instead of [0:2] in case someone just types random stuff
+    if input[0].isdigit():  # [0] instead of [0:2] in case someone just types random stuff
         # If school doesn't exist in SAT file, then we don't care
         schools = data.processed_SAT
         for school in schools:
             if school[0] == input:
-                return input
+                return [input] # Must be an array since other half of function returns array
         return None  # No school found (you should expect None when coding)
     else:
         '''
         Calculate the percent similar between input and actual school name
         Will always generate a name (Don't want to do percent in case a school in csv is named weirdly
         
-        Doesn't include 'i' because the csv file is corrupt and is missing some 'i'  :(
+        Csv file is corrupt and is missing some letters  :(
         '''
         # Clean up user input
         input = clean_name(input)
-
-        # Get amount of times a letter appears to compare
-        input_letters = letter_occurrence(input)
-
 
         # Schools whose name are close
         percent = 0
         schools = []
 
+        data.read_SAT()  # Don't need to run initialize since we only care about schools that took the SAT
+
         for school in data.processed_SAT:
-            school_letters = letter_occurrence(school[1])
+            name = clean_name(school[1])
+            percent_similar = comparison(name, input)
+            if percent_similar == percent:
+                schools.append(school[0])  # Want to add the DBN value instead of school name
+            elif percent_similar > percent:
+                schools = [school[0]]
+                percent = percent_similar
+
+            print("percent: {} name: {}".format(percent, name))
+
+        schools.append(percent)  # Informs user how similar the names are
+        return schools
 
 
-
+# Debugging purposes
+if __name__ == "__main__":
+    print(find_school("Stuyvesant High School"))

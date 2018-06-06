@@ -97,7 +97,7 @@ def check_correct_type_input(form):
     if type == "name":
         pass
     else:
-        # Has to be numerical value less than or equal to amount of highschools(640)
+        # Has to be numerical value less than or equal to amount of high schools(640)
         if form[MATCH_INPUT[type]].isdigit():
             num_schools = int(form[MATCH_INPUT[type]])
             if num_schools > 640:
