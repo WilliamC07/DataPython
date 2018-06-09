@@ -68,7 +68,7 @@ def process_SAT(raw):
         # Fix school name to include comma
         name_school = ""
         for part_name in array[1:-4]:
-            name_school += part_name + ","
+            name_school += part_name + ","  # No need for ", " since .split only removes "," and not white space
         data[1] = name_school[:-2]  # Remove trailing comma
         processed_SAT.append(data)
 
@@ -106,7 +106,7 @@ def process_survey(raw):
         data.append(school_name[:-2])  # Removes trailing comma and space
 
         for rest_data in array[-25:]:
-            data.append(rest_data)
+            data.append(rest_data.strip())
 
         processed_survey.append(data)
 
@@ -123,5 +123,4 @@ def read_survey():
 # Bug testing
 if __name__ == "__main__":
     initialize()
-    for item in processed_survey:
-        print(len(item))
+    print(processed_survey[85])

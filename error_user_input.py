@@ -95,7 +95,8 @@ def check_correct_type_input(form):
     """School name enters exists or number given for fields needing them"""
     error_highlight = []
     if type == "name":
-        pass
+        if find_school.find_school(form["name_school"]) is None:
+            error_highlight.append("The school you entered does not exist")
     else:
         # Has to be numerical value less than or equal to amount of high schools(640)
         if form[MATCH_INPUT[type]].isdigit():
@@ -107,3 +108,9 @@ def check_correct_type_input(form):
         else:
             error_highlight.append("Enter a integer greater than 0 but less than 461. No decimals/fractions")
     return error_highlight
+
+
+# Debugging
+
+if __name__ == "__main__":
+    pass

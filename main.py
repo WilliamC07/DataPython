@@ -30,15 +30,19 @@ def generate_webpage(body):
     print(webgen.generate_webpage(head_html, body, tail_html))
 
 
-def main():
-    # Dictionary of inputs
-    form = get_cgi_dict()
-
+def error_handler(form):
     # Check if user entered valid information and make user reenter if wrongly filled
     error_web = error.error_website(form)
     if error_web is not None:  # Means there are errors
         print(error.error_website(form))
         return  # Can return since this function is only called once, at the end
+
+
+def main():
+    # Dictionary of inputs
+    form = get_cgi_dict()
+
+    error_handler(form)
 
     # Generate all the data to be used
     data.initialize()

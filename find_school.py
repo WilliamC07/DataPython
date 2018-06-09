@@ -15,8 +15,8 @@ def clean_name(input):
 
 
 def comparison(base, new):
-    # Makes sure the first two letters are the same
-    if base[:2] == new[:2]:
+    # Makes sure the first two letters are the same and user gave enough letters
+    if base[:2] == new[:2] and len(new) > 4:
         same = 0
         for letter in base:
             if letter in new:
@@ -30,6 +30,8 @@ def comparison(base, new):
 
 
 def find_school(input):
+    data.read_SAT()  # Don't need to run initialize since we only care about schools that took the SAT
+
     # See if person enter DBN name
     if input[0].isdigit():  # [0] instead of [0:2] in case someone just types random stuff
         # If school doesn't exist in SAT file, then we don't care
@@ -52,8 +54,6 @@ def find_school(input):
         percent = 0
         schools = []
 
-        data.read_SAT()  # Don't need to run initialize since we only care about schools that took the SAT
-
         for school in data.processed_SAT:
             name = clean_name(school[1])
             percent_similar = comparison(name, input)
@@ -63,12 +63,16 @@ def find_school(input):
                 schools = [school[0]]
                 percent = percent_similar
 
-            print("percent: {} name: {}".format(percent, name))
+            #print("percent: {} name: {}".format(percent, name))
 
         schools.append(percent)  # Informs user how similar the names are
+        if percent <= .3:  # No school fits it using my algorithm of finding names (arbitrary value)
+            return None
+
         return schools
 
 
 # Debugging purposes
 if __name__ == "__main__":
-    print(find_school("Stuyvesant High School"))
+    print(find_school("08X378"))
+    pass
