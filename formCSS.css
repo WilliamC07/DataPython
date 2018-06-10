@@ -1,31 +1,38 @@
-h1, h2{
+#heading{
 	text-align: center;
+	background: rgba(0,191,255,0.8)
 }
-
+body{
+	background: linear-gradient(limegreen 50%, dodgerblue 50%);
+	background-size: 100% 10px;"
+}
 #head_export{
 	height: 100px;
-	width: 100%;
+	margin-left: 1%;
+	background: rgba(50,205,20,0.8)
 }
-
 #head_processed_data{
-	height: 170px;
-	width: 100%;
+	height: 180px;
+	margin-left: 1%;
+	background: rgba(50,205,20,0.8)
 }
 #body_left_processed_data{
-    float: left;
-	width: 25%;
+	float: left;
+	width: 50%;
 }
 #body_right_processed_data{
 	float: left;
-	width: 25%;
+	width: 30%;
 	padding-left: 5%;
 }
 #head_extra{
 	height: 25%;
+	margin-left: 1%;
+	background: rgba(50,205,20,0.8)
 }
 #submit_button{
 	margin-top: 15px;
-	background-color: LightGray;
+	background-color: lightgray;
 	width: 50%;
 	height: 15%;
 }
