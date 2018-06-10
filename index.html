@@ -44,15 +44,35 @@
 				<label>School name or code*:</label>
 				<input type="text" name="name_school" size="15">
 				<label>*Include word "high school" if it is part of the name (Example: "Stuyvesant High School")</label>
+				<label>*Separate multiple schools by ";"(do not separate different schools with an additional space)</label>
 				<br>
 			</div>
+
+            <!-- BASED ON -->
 			<div id="body_right_processed_data">
 				<h3>Based on</h3>
-				<input type="radio" name="processed_based" value="score">
-				<label>SAT Score</label>
+				<input type="radio" name="processed_based" value="sat">
+                <label>SAT organized by: </label>
+				<select name = "SAT_choice">
+                    <option value = "n">number of test takers</option>
+                    <option value = "r">reading scores</option>
+                    <option value = "m">math scores</option>
+                    <option value = "w">writing scores</option>
+                    <option value = "t">combined scores</option>
+                </select>
 				<br>
-				<input type="radio" name="processed_based" value="SAT">
-				<label>Survey results (Average of responses)</label>
+				<input type="radio" name="processed_based" value="survey">
+				<label>Surveys organized by: </label>
+                <select name = "Survey_choice">
+                    <option value="teacher">teacher ratings</option>
+                    <option value="parent">parent ratings</option>
+					<option value="student">student ratings</option>
+					<option value="safety">safety and respect score</option>
+					<option value="communication">communication score</option>
+					<option value="engagement">engagement score</option>
+					<option value="academic">academic expectation score</option>
+					<option value="overall">overall score</option>
+                </select>
 			</div>
 		</div>
 		

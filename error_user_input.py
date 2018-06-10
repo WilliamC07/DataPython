@@ -25,9 +25,10 @@ def error_website(form):
 
         for error in to_fix:
             errors += "{}\n".format(error)
+        errors += "\nPlease go back to the previous page to fix"
 
-        paragraph = web_build.paragraph(errors)
-        website = web_build.generate_webpage(web_build.get_head(title="Error!!!!!"), paragraph, web_build.get_tail())
+        paragraph = web_build.make_paragraph(errors)
+        website = web_build.generate_webpage(web_build.get_head("Error!!!!!"), paragraph, web_build.get_tail())
         return website
 
 
@@ -59,6 +60,7 @@ def get_errors(form):
 '''
 Helper functions
 '''
+
 
 def check_all_radio_inputs(form):
     """User clicked all 3 radio buttons"""
@@ -95,14 +97,19 @@ def check_correct_type_input(form):
     """School name enters exists or number given for fields needing them"""
     error_highlight = []
     if type == "name":
-        if find_school.find_school(form["name_school"]) is None:
-            error_highlight.append("The school you entered does not exist")
+        schools = find_school.get_school(form["name_school"])
+        if schools[0] == "error":
+            error_schools = ""
+            for school in schools[1:]:
+                error_schools += "; \"{}\"".format(school)
+            error_schools = error_schools[2:]  # Remove leading " ," due to formatting flaw
+            error_highlight.append("The school you enter does not exist: {}".format(error_schools))
     else:
         # Has to be numerical value less than or equal to amount of high schools(640)
         if form[MATCH_INPUT[type]].isdigit():
             num_schools = int(form[MATCH_INPUT[type]])
-            if num_schools > 640:
-                error_highlight.append("You want a list of {} high schools, but there are only 640".format(num_schools))
+            if num_schools > 460:
+                error_highlight.append("You want a list of {} high schools, but there are only 460".format(num_schools))
             elif num_schools <= 0:
                 error_highlight.append("You must enter a positive number (A number greater than 0)")
         else:
@@ -113,4 +120,5 @@ def check_correct_type_input(form):
 # Debugging
 
 if __name__ == "__main__":
+
     pass

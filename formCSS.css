@@ -3,12 +3,12 @@ h1, h2{
 }
 
 #head_export{
-	height: 100px;
+	height: 15vh;
 	width: 100%;
 }
 
 #head_processed_data{
-	height: 170px;
+	height: 33vh;
 	width: 100%;
 }
 #body_left_processed_data{
@@ -17,15 +17,15 @@ h1, h2{
 }
 #body_right_processed_data{
 	float: left;
-	width: 25%;
+	width: 35%;
 	padding-left: 5%;
 }
 #head_extra{
-	height: 25%;
+	height: 15vh;
 }
 #submit_button{
 	margin-top: 15px;
 	background-color: LightGray;
-	width: 50%;
+	width: 50vw;
 	height: 15%;
 }

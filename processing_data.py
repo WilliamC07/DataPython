@@ -1,126 +1,182 @@
+import get_data as data
 import data_analysis as analysis
+import random
 
-# Global variables for readability
-# SAT
-processed_SAT = []
-total_average = ["test_takers", "reading", "math", "writing", "overall"]  # Will be converted to numbers
+# Read the files
+data.initialize()
 
-# Survey
-processed_survey = []
-
-'''
-Helper function:
-
-initialize() --> generates all the global variables value
-since I don't think we can use __init__()
-
-read_file(file_path) --> gives the raw data of the file
-
-'''
+# It is called sorted, but can be random
+sorted_sat = []
+sat_average = [0, 0, 0, 0, 0]
+sat_averages_selected = [0, 0, 0, 0, 0]
+sorted_survey = []
+simplified_sorted_survey = []
+dbn_dict = data.dbn_dictionary
+chosen_selection = ""
 
 
-def initialize():
-    read_SAT()
-    read_survey()
+def _sort(direction, list, index_comparison):
+    """
+    Using quick sort algorithm
+    Direction: 'i' for increasing, 'd' for decreasing
+    """
+    if len(list) <= 1:
+        return list
+    else:
+        pivot = int(list[0][index_comparison])
 
+        left = []
+        right = []
+        for element in list[1:]:
+            comparison = int(element[index_comparison])
+            if comparison > pivot:
+                right.append(element)
+            else:
+                left.append(element)
 
-def read_file(file_path):
-    file = open(file_path, 'r')
-    information = file.readlines()
-    file.close()
-    return information
-
-
-def is_valid_school(dbn):
-    """If the school didn't take the SAT then we don't care"""
-    valid_school = False
-    for school in processed_SAT:
-        if school[0] == dbn:
-            valid_school = True
-    return valid_school
-
-
-'''
-SAT Functions
-'''
-
-
-def process_SAT(raw):
-    for line in raw[1:]:  # Remove csv file column name
-        data = ["DBN", "School name", "number of test takers",
-                "reading", "math", "writing", "total average"]
-
-        # Clean up reading file
-        line = line.replace("\n", "")
-        array = line.split(",")
-
-        # Schools with missing data (less than or equal to 5 test takers)
-        if array[-1] == 's':
-            data[-5:] = [0, 0, 0, 0, 0]
+        # Check for increasing or decreasing order
+        right_sort = _sort(direction, right, index_comparison)
+        left_sort = _sort(direction, left, index_comparison)
+        if direction == "d":
+            return right_sort + [list[0]] + left_sort
         else:
-            data[-5: -1] = array[-4:]
-            # Average of sat scores (this function requires integer input)
-            data[-1] = analysis.mean([int(x) for x in data[-4:-1]])
-
-        # School code doesn't need processing
-        data[0] = array[0]
-
-        # Fix school name to include comma
-        name_school = ""
-        for part_name in array[1:-4]:
-            name_school += part_name + ","  # No need for ", " since .split only removes "," and not white space
-        data[1] = name_school[:-2]  # Remove trailing comma
-        processed_SAT.append(data)
+            return left_sort + [list[0]] + right_sort
 
 
-def read_SAT():
-    global processed_SAT
-    processed_SAT = []
+def _average_precise(list, index):
+    """Finds average of a certain index in a matrix removing all values that are equal to 0"""
+    items = []
+    for item in list:
+        if int(item[index]) != 0:
+            items.append(int(item[index]))
+    if len(items) == 0:
+        return 0
+    else:
+        return analysis.mean(items)
 
-    PATH = "SAT.csv"
-    raw_data = read_file(PATH)
-    process_SAT(raw_data)
+
+def _randomize_list(list):
+    # shuffle modifies the variable input; function itself returns None.
+    random.shuffle(list)
+    return list
+
+
+def _fix_name(list):
+    for index, school in enumerate(list):
+        if school[0] in data.dbn_dictionary:
+            list[index][1] = data.dbn_dictionary[school[0]]
+    return list
+
+
+def better_name():
+    global sorted_sat
+    sorted_sat = _fix_name(sorted_sat)
+    global simplified_sorted_survey
+    simplified_sorted_survey = _fix_name(simplified_sorted_survey)
+
+
+def amount_limiter(type, max):
+    """type: 'sat' or 'survey'"""
+    global sorted_sat
+    global sorted_survey
+    if type == "sat":
+        sorted_sat = sorted_sat[0:max]
+    elif type == 'survey':
+        sorted_survey = sorted_survey[0:max]
+
+
+def sort_sat(direction, section, list=data.sat):
+    """
+    Section: 'n': number of test takers, 'r': reading, 'm': math, 'w': writing, 't': total
+    Direction: 'i': increasing, 'd': decreasing
+    """
+    global sorted_sat
+    section_index_dict = {'n': 2, 'r': 3, 'm': 4, 'w': 5, 't': 6}
+    sorted_sat = _sort(direction, list, section_index_dict[section])
+    global chosen_selection
+    chosen_selection = section
+
+
+def randomize_sat():
+    global sorted_sat
+    sorted_sat = _randomize_list(data.sat)
+
+
+def certain_SAT(schools, section):
+    global sorted_sat
+    dbns = schools[0]
+    for school in data.sat:
+        if school[0] in dbns:
+            sorted_sat.append(school)
+    sort_sat('d', section, sorted_sat)
+
+
+def calculate_averages():
+    global sat_average
+    global sat_averages_selected
+    index = 0
+    while index < 5:
+        sat_average[index] += _average_precise(data.sat, index + 2)
+        sat_averages_selected[index] += _average_precise(sorted_sat, index + 2)
+        index += 1
 
 
 '''
-Survey functions
+Survey section
 '''
 
 
-def process_survey(raw):
-    """Note that not all schools have their survey results posted"""
-    for line in raw[1:]:
-        data = ["DBN"]
-
-        array = line.split(",")
-        if not is_valid_school(array[0]):
-            # Skips school that didn't take the SAT or we don't have the data for
-            continue
-        else:
-            data[0] = array[0]
-
-        # Generates school name in case there is a comma in the name
-        school_name = ""
-        for part in array[1:-25]:
-            school_name += part+", "
-        data.append(school_name[:-2])  # Removes trailing comma and space
-
-        for rest_data in array[-25:]:
-            data.append(rest_data.strip())
-
-        processed_survey.append(data)
+def sort_survey(direction, section):
+    global sorted_survey
+    sorted_survey = data.survey
+    pass
 
 
-def read_survey():
-    global processed_survey
-    processed_survey = []
+def simplify_survey():
+    global simplified_sorted_survey
+    simplified_sorted_survey = []
+    '''
+    simplified_sorted_survey - basically removes/simplify parts
+    Each list contains these elements
+    0. dbn
+    1. school name
+    2. parent response rate *note the switch from original
+    3. teacher
+    4. student *note the switch from orginal
+    5. overall parent
+    6. teacher
+    7. student
+    8. safety
+    9. communication
+    10. engagement
+    11. academic expectation
+    12. overall 8 through 11 inclusive
+    '''
+    for raw in sorted_survey:
+        hold = [None for _ in range(12)]  # To make length 11
+        hold[:2] = raw[:2]
+        hold[2] = raw[4]
+        hold[3] = raw[3]
+        hold[4] = raw[2]
+        hold[5] = analysis.mean([float(x) for x in raw[11:15]])
+        hold[6] = analysis.mean([float(x) for x in raw[15:19]])
+        hold[7] = analysis.mean([float(x) for x in raw[19:23]])
+        hold[8:12] = raw[23:]
+        hold[12] = analysis.mean(hold[8:12])
+        simplified_sorted_survey.append(hold)
 
-    PATH = "Survey.csv"
-    raw_data = read_file(PATH)
-    process_survey(raw_data)
+def survey_break_down():
+    """
+    10 means strong agree, 0 means strongly disagree according to
+    http://schools.nyc.gov/NR/rdonlyres/C5971763-B938-43CF-A525-0DBCCED94AA0/0/2013NYCSchoolSurveyScoringGuide.pdf
+    """
+    pass
 
 
-# Bug testing
+# Debugging purposes
 if __name__ == "__main__":
-    initialize()
-    print(processed_survey[85])
+    sort_survey("", "")
+    simplify_survey()
+    print(simplified_sorted_survey[0])
+
+    pass
