@@ -25,6 +25,8 @@ def correlation(x, y):
     n = len(x)  # the number of pairs given that x and y are the same length
     numerator = (n * (sum(prod(x, y))) - sum(x) * sum(y))
     denominator = ((n * sum(squareList(x)) - ((sum(x)) ** 2)) * (n * sum(squareList(y)) - ((sum(y)) ** 2))) ** .5
+    if denominator == 0:
+        return 0
     return numerator / denominator  # the correlation coefficient r
 
 

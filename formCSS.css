@@ -6,12 +6,6 @@ body{
 	background: linear-gradient(limegreen 50%, dodgerblue 50%);
 	background-size: 100% 10px;"
 }
-#head_export{
-	height: 15vh;
-	margin-left: 1%;
-	margin-right: 1%;
-	background: rgba(50,205,20,0.9)
-}
 #head_processed_data{
 	height: 33vh;
 	margin-left: 1%;

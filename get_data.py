@@ -96,6 +96,8 @@ def process_survey(raw):
         data = ["DBN"]
 
         array = line.split(",")
+        if len(array) < 27:
+            continue  # Invalid school data
         if not is_valid_school(array[0]):
             # Skips school that didn't take the SAT or we don't have the data for
             continue
@@ -110,7 +112,6 @@ def process_survey(raw):
 
         for rest_data in array[-25:]:
             data.append(rest_data.strip())
-
         survey.append(data)
 
 
@@ -143,5 +144,4 @@ def read_dbn():
 # Bug testing
 if __name__ == "__main__":
     initialize()
-    print(survey[0])
     pass

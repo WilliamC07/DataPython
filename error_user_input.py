@@ -66,8 +66,6 @@ def check_all_radio_inputs(form):
     """User clicked all 3 radio buttons"""
     error_highlight = []
     missing_format = "Fill out {} section"
-    if "export_type" not in form:
-        error_highlight.append(missing_format.format("'How do you want the data exported?'"))
 
     if "processed_format" not in form:
         error_highlight.append(missing_format.format("'Processed Data Formatted'"))
@@ -97,6 +95,9 @@ def check_correct_type_input(form):
     """School name enters exists or number given for fields needing them"""
     error_highlight = []
     if type == "name":
+        if form["processed_based"] == "survey":
+            error_highlight.append("Because not all schools that took SAT took the survey, this feature is not available")
+            return error_highlight
         schools = find_school.get_school(form["name_school"])
         if schools[0] == "error":
             error_schools = ""

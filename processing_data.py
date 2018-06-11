@@ -12,7 +12,10 @@ sat_averages_selected = [0, 0, 0, 0, 0]
 sorted_survey = []
 simplified_sorted_survey = []
 dbn_dict = data.dbn_dictionary
-chosen_selection = ""
+chosen_selection_sat = ""
+chosen_selection_survey = 0
+copy_sat = []
+copy_survey = []
 
 
 def _sort(direction, list, index_comparison):
@@ -23,12 +26,12 @@ def _sort(direction, list, index_comparison):
     if len(list) <= 1:
         return list
     else:
-        pivot = int(list[0][index_comparison])
+        pivot = float(list[0][index_comparison])
 
         left = []
         right = []
         for element in list[1:]:
-            comparison = int(element[index_comparison])
+            comparison = float(element[index_comparison])
             if comparison > pivot:
                 right.append(element)
             else:
@@ -77,12 +80,18 @@ def better_name():
 
 def amount_limiter(type, max):
     """type: 'sat' or 'survey'"""
+    # Before lost of data calculate some parts
     global sorted_sat
-    global sorted_survey
+    global simplified_sorted_survey
+    global copy_sat
+    global copy_survey
+    copy_sat = sorted_sat[:]
+    copy_survey = simplified_sorted_survey[:]
+
     if type == "sat":
         sorted_sat = sorted_sat[0:max]
     elif type == 'survey':
-        sorted_survey = sorted_survey[0:max]
+        simplified_sorted_survey = simplified_sorted_survey[0:max]
 
 
 def sort_sat(direction, section, list=data.sat):
@@ -93,8 +102,8 @@ def sort_sat(direction, section, list=data.sat):
     global sorted_sat
     section_index_dict = {'n': 2, 'r': 3, 'm': 4, 'w': 5, 't': 6}
     sorted_sat = _sort(direction, list, section_index_dict[section])
-    global chosen_selection
-    chosen_selection = section
+    global chosen_selection_sat
+    chosen_selection_sat = section
 
 
 def randomize_sat():
@@ -126,13 +135,24 @@ Survey section
 '''
 
 
+def initialize_survey():
+    global sorted_survey
+    global simplified_sorted_survey
+    sorted_survey = data.survey
+    simplify_survey()
+
+
 def sort_survey(direction, section):
     global sorted_survey
-    sorted_survey = data.survey
-    pass
+    global simplified_sorted_survey
+    global chosen_selection_survey
+
+    simplified_sorted_survey = _sort(direction, simplified_sorted_survey, section)
+    chosen_selection_survey = section
 
 
 def simplify_survey():
+    global sorted_survey
     global simplified_sorted_survey
     simplified_sorted_survey = []
     '''
@@ -140,12 +160,15 @@ def simplify_survey():
     Each list contains these elements
     0. dbn
     1. school name
+    
     2. parent response rate *note the switch from original
     3. teacher
     4. student *note the switch from orginal
+    
     5. overall parent
     6. teacher
     7. student
+    
     8. safety
     9. communication
     10. engagement
@@ -153,30 +176,62 @@ def simplify_survey():
     12. overall 8 through 11 inclusive
     '''
     for raw in sorted_survey:
-        hold = [None for _ in range(12)]  # To make length 11
+        hold = [None for _ in range(13)]  # To make length 12
         hold[:2] = raw[:2]
-        hold[2] = raw[4]
-        hold[3] = raw[3]
-        hold[4] = raw[2]
+        hold[2] = float(raw[4])
+        hold[3] = float(raw[3])
+        hold[4] = float(raw[2])
         hold[5] = analysis.mean([float(x) for x in raw[11:15]])
         hold[6] = analysis.mean([float(x) for x in raw[15:19]])
         hold[7] = analysis.mean([float(x) for x in raw[19:23]])
-        hold[8:12] = raw[23:]
-        hold[12] = analysis.mean(hold[8:12])
+        hold[8:12] = [float(x) for x in raw[23:]]
+        hold[12] = analysis.mean([float(x) for x in hold[8:12]])
         simplified_sorted_survey.append(hold)
 
+
+def randomize_survey():
+    global sorted_survey
+    sorted_survey = _randomize_list(sorted_survey)
+    simplify_survey()
+
+
+def _match_from_survey(dbn):
+    global copy_sat
+    for school in copy_sat:
+        if school[0] == dbn and school[-1] != 0:
+            return school[-1]  # Returns total score
+    return 0  # No matching found
+
+
 def survey_break_down():
-    """
-    10 means strong agree, 0 means strongly disagree according to
-    http://schools.nyc.gov/NR/rdonlyres/C5971763-B938-43CF-A525-0DBCCED94AA0/0/2013NYCSchoolSurveyScoringGuide.pdf
-    """
-    pass
+    global copy_survey
+    global copy_sat
+    """Arranging to allow for correlation between survey group response and overall grade"""
+    correlate = [[], [], [], [], []]
+    # Since there are less survey than sat, we will use survey as reference
+    for school in copy_survey:
+        score = _match_from_survey(school[0])
+        if score != 0:
+            correlate[0].append(score)
+            correlate[1].append(school[5])
+            correlate[2].append(school[6])
+            correlate[3].append(school[7])
+            correlate[4].append(school[12])
+
+    # Find correlation between [0] and [1:]
+    correlate[1] = analysis.correlation(correlate[0], correlate[1])
+    correlate[2] = analysis.correlation(correlate[0], correlate[2])
+    correlate[3] = analysis.correlation(correlate[0], correlate[3])
+    correlate[4] = analysis.correlation(correlate[0], correlate[4])
+
+    return correlate[1:]  # First item is useless now
 
 
 # Debugging purposes
 if __name__ == "__main__":
-    sort_survey("", "")
+    initialize_survey()
     simplify_survey()
-    print(simplified_sorted_survey[0])
-
+    sort_survey('d', -1)
+    certain_survey([["02M475"]], '3')
+    print(simplified_sorted_survey)
     pass
