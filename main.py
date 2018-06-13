@@ -82,8 +82,6 @@ def prepare_data_survey():
         processed.sort_survey('i', request_to_index[form["Survey_choice"]])
     elif type == 'random':
         processed.randomize_survey()
-    else:
-        processed.certain_survey(find_school.get_school(form["name_school"]), request_to_index[form["Survey_choice"]])
 
 
 def body_generation():
@@ -164,7 +162,7 @@ def general_data():
 
     # Survey overview
     info_survey = "The scale for score is 1 to 10 inclusive, with 10 being the best score (the group strongly agrees) \n"
-    intro_survey = "Not all high schools that have students who took the SAT have survey results, but here are some correlations (These correlations are be off since there are multiple factors affect SAT score and amount of students taking SAT in all schools isn't a significant portion. In addition, these survey include teachers, students, and parents that are not associated with SAT score at all):\n\n"
+    intro_survey = "Not all high schools that have students who took the SAT have survey results (if one doesn't in the list, correlation is 0), but here are some correlations (These correlations can be off since there are multiple factors affect SAT score. In addition the amount of students taking SATs in all high schools aren't a significant amount. These surveys also include teachers, students, and parents that are not associated with SAT score at all):\n\n"
     correlation = ""
     correlation_values = processed.survey_break_down()
     correlation_structure = "Correlation between SAT Scores and {}: {}\n"
@@ -209,6 +207,9 @@ def main():
 
     '''Website building'''
     # Generates right side of page with static information
+    # If user didn't choose survey option default to overall
+    if "Survey_choice" not in form:
+        form["Survey_choice"] = "overall"
     prepare_data_survey()
     prepare_data_sat()
     processed.better_name()  # Makes better school name based on dbn if available

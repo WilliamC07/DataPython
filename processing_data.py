@@ -232,6 +232,5 @@ if __name__ == "__main__":
     initialize_survey()
     simplify_survey()
     sort_survey('d', -1)
-    certain_survey([["02M475"]], '3')
     print(simplified_sorted_survey)
     pass
